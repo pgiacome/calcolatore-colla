@@ -4,22 +4,29 @@
     <meta charset="utf-8"/>
     <link rel="icon" href="./favicon.ico"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="theme-color" content="#213b8f"/>
+    <meta name="theme-color" content="#192b69"/>
     <meta name="Color Matcher" content="Tenax Color Matcher"/>
     <link rel="apple-touch-icon" href="./logo512.png"/>
     <link rel="manifest" href="./manifest.json"/>
     <title>Tenax Color Matcher - Calcolatore Colla</title>
-    
+
+    <!-- Archivo font, matching tenax.it -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,300&display=swap" rel="stylesheet">
+
     <script defer="defer" src="./static/js/main.2ddddf72.js"></script>
     <link href="./static/css/main.4e2af227.css" rel="stylesheet">
 
     <style>
         :root {
-            --tenax-blue: #213b8f;
+            /* Brand tokens aligned with tenax.it */
+            --tenax-blue: #192b69;            /* dal meta theme-color del sito tenax.it */
             --tenax-white: #ffffff;
             --tenax-text-dark: #1a1a1a;
             --tenax-border: #cccccc;
-            --tenax-bg-light: #f8f9fa; /* Grigio chiarissimo di contrasto per il box */
+            --tenax-bg-light: #f8f9fa;
+            --tenax-font: 'Archivo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
@@ -31,7 +38,10 @@
             align-items: center;
             min-height: 100vh;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: var(--tenax-font);
+            color: var(--tenax-text-dark);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .calc-wrapper {
@@ -46,7 +56,7 @@
             border-top: 6px solid var(--tenax-blue);
             padding: 35px 30px;
             border-radius: 8px;
-            box-shadow: 0 8px 24px rgba(33, 59, 143, 0.08);
+            box-shadow: 0 8px 24px rgba(25, 43, 105, 0.08);
             box-sizing: border-box;
         }
 
@@ -57,7 +67,8 @@
             font-size: 22px;
             border-bottom: 2px solid var(--tenax-blue);
             padding-bottom: 12px;
-            font-weight: 700;
+            font-family: var(--tenax-font);
+            font-weight: 800;            /* Archivo ExtraBold per i titoli, come tenax.it */
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -68,29 +79,32 @@
 
         .calc-form-group label {
             display: block;
+            font-family: var(--tenax-font);
             font-weight: 600;
             margin-bottom: 8px;
             color: var(--tenax-text-dark);
             font-size: 14px;
         }
 
-        .calc-form-group input, 
+        .calc-form-group input,
         .calc-form-group select {
             width: 100%;
             padding: 12px 14px;
             border: 1px solid var(--tenax-border);
             border-radius: 4px;
             box-sizing: border-box;
+            font-family: var(--tenax-font);
             font-size: 16px;
+            font-weight: 400;
             color: var(--tenax-text-dark);
             background-color: var(--tenax-white);
             transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        .calc-form-group input:focus, 
+        .calc-form-group input:focus,
         .calc-form-group select:focus {
             border-color: var(--tenax-blue);
-            box-shadow: 0 0 0 3px rgba(33, 59, 143, 0.1);
+            box-shadow: 0 0 0 3px rgba(25, 43, 105, 0.1);
             outline: none;
         }
 
@@ -101,12 +115,14 @@
             border-radius: 6px;
             text-align: center;
             margin-top: 28px;
-            box-shadow: 0 4px 12px rgba(33, 59, 143, 0.2);
+            box-shadow: 0 4px 12px rgba(25, 43, 105, 0.2);
         }
 
         .result-label {
             display: block;
+            font-family: var(--tenax-font);
             font-size: 13px;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1.2px;
             margin-bottom: 6px;
@@ -115,28 +131,31 @@
         }
 
         .result-value {
+            font-family: var(--tenax-font);
             font-size: 42px;
-            font-weight: 700;
+            font-weight: 800;
             line-height: 1;
             color: var(--tenax-white);
+            letter-spacing: -0.5px;
         }
 
         .result-um {
             font-size: 22px;
             font-weight: 400;
             color: var(--tenax-white);
+            letter-spacing: 0;
         }
     </style>
 </head>
 <body>
 
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    
+
     <div id="root">
         <div class="calc-wrapper">
             <div class="glue-calculator-container">
                 <h2>Calcolo Volumi INTEGRA</h2>
-                
+
                 <div class="calc-form-group">
                     <label for="glue-type">Tipologia Incollaggio</label>
                     <select id="glue-type" onchange="updateDefaultThickness()">
@@ -175,7 +194,7 @@
         if (!select) return;
         var selectedOption = select.options[select.selectedIndex];
         var defaultThickness = selectedOption.getAttribute('data-thickness');
-        
+
         var thicknessInput = document.getElementById('glue-thickness');
         if (thicknessInput) {
             thicknessInput.value = defaultThickness;
@@ -188,17 +207,17 @@
         var seamEl = document.getElementById('seam-length');
         var glueEl = document.getElementById('glue-thickness');
         var resultEl = document.getElementById('glue-result');
-        
+
         if (!slabEl || !seamEl || !glueEl || !resultEl) return;
 
         // Gestione del punto/virgola per i decimali
         var slabThickness = parseFloat(slabEl.value.toString().replace(',', '.')) || 0;
         var seamLength = parseFloat(seamEl.value.toString().replace(',', '.')) || 0;
         var glueThickness = parseFloat(glueEl.value.toString().replace(',', '.')) || 0;
-        
+
         // Formula basata sul foglio INTEGRA: (Slab * Seam * Spessore) / 1000
         var volume = (slabThickness * seamLength * glueThickness) / 1000;
-        
+
         // Arrotondamento all'intero più vicino
         resultEl.textContent = Math.round(volume);
     }
