@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <link rel="icon" href="./favicon.ico"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="theme-color" content="#1B362F"/>
+    <meta name="theme-color" content="#213b8f"/>
     <meta name="Color Matcher" content="Tenax Color Matcher"/>
     <link rel="apple-touch-icon" href="./logo512.png"/>
     <link rel="manifest" href="./manifest.json"/>
@@ -15,14 +15,15 @@
 
     <style>
         :root {
-            --tenax-primary: #1B362F;
-            --tenax-accent: #7A8A6E;
-            --tenax-bg-light: #F3F4F1;
-            --tenax-text: #2B2B2B;
+            --tenax-blue: #213b8f;
+            --tenax-white: #ffffff;
+            --tenax-text-dark: #1a1a1a;
+            --tenax-border: #cccccc;
+            --tenax-bg-light: #f8f9fa; /* Grigio chiarissimo di contrasto per il box */
         }
 
         body {
-            background-color: #FFFFFF;
+            background-color: var(--tenax-white);
             margin: 0;
             padding: 40px 20px;
             display: flex;
@@ -40,20 +41,21 @@
         }
 
         .glue-calculator-container {
-            background-color: var(--tenax-bg-light);
-            border-left: 6px solid var(--tenax-primary);
+            background-color: var(--tenax-white);
+            border: 1px solid var(--tenax-border);
+            border-top: 6px solid var(--tenax-blue);
             padding: 35px 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(33, 59, 143, 0.08);
             box-sizing: border-box;
         }
 
         .glue-calculator-container h2 {
-            color: var(--tenax-primary);
+            color: var(--tenax-blue);
             margin-top: 0;
             margin-bottom: 25px;
             font-size: 22px;
-            border-bottom: 2px solid var(--tenax-accent);
+            border-bottom: 2px solid var(--tenax-blue);
             padding-bottom: 12px;
             font-weight: 700;
             text-transform: uppercase;
@@ -68,7 +70,7 @@
             display: block;
             font-weight: 600;
             margin-bottom: 8px;
-            color: var(--tenax-text);
+            color: var(--tenax-text-dark);
             font-size: 14px;
         }
 
@@ -76,30 +78,30 @@
         .calc-form-group select {
             width: 100%;
             padding: 12px 14px;
-            border: 1px solid #D1D5DB;
-            border-radius: 6px;
+            border: 1px solid var(--tenax-border);
+            border-radius: 4px;
             box-sizing: border-box;
             font-size: 16px;
-            color: var(--tenax-text);
-            background-color: #FFFFFF;
+            color: var(--tenax-text-dark);
+            background-color: var(--tenax-white);
             transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .calc-form-group input:focus, 
         .calc-form-group select:focus {
-            border-color: var(--tenax-primary);
-            box-shadow: 0 0 0 3px rgba(27, 54, 47, 0.1);
+            border-color: var(--tenax-blue);
+            box-shadow: 0 0 0 3px rgba(33, 59, 143, 0.1);
             outline: none;
         }
 
         .calc-result-box {
-            background-color: var(--tenax-primary);
-            color: #FFFFFF;
+            background-color: var(--tenax-blue);
+            color: var(--tenax-white);
             padding: 22px;
-            border-radius: 8px;
+            border-radius: 6px;
             text-align: center;
             margin-top: 28px;
-            box-shadow: 0 4px 12px rgba(27, 54, 47, 0.15);
+            box-shadow: 0 4px 12px rgba(33, 59, 143, 0.2);
         }
 
         .result-label {
@@ -108,6 +110,7 @@
             text-transform: uppercase;
             letter-spacing: 1.2px;
             margin-bottom: 6px;
+            color: var(--tenax-white);
             opacity: 0.9;
         }
 
@@ -115,11 +118,13 @@
             font-size: 42px;
             font-weight: 700;
             line-height: 1;
+            color: var(--tenax-white);
         }
 
         .result-um {
             font-size: 22px;
             font-weight: 400;
+            color: var(--tenax-white);
         }
     </style>
 </head>
