@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcolatore Volume Colla</title>
+    <style>
+        :root {
+            --primary-green: #1B362F;
+            --accent-green: #7A8A6E;
+            --bg-light: #F3F4F1;
+            --text-dark: #2B2B2B;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #FFFFFF;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .glue-calculator-container {
+            background-color: var(--bg-light);
+            border-left: 6px solid var(--primary-green);
+            padding: 35px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            box-sizing: border-box;
+        }
+
+        .glue-calculator-container h2 {
+            color: var(--primary-green);
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+            border-bottom: 2px solid var(--accent-green);
+            padding-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .calc-form-group {
+            margin-bottom: 22px;
+        }
+
+        .calc-form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .calc-form-group input, 
+        .calc-form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: var(--text-dark);
+            background-color: #FFFFFF;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .calc-form-group input:focus, 
+        .calc-form-group select:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(27, 54, 47, 0.1);
+            outline: none;
+        }
+
+        .calc-result-box {
+            background-color: var(--primary-green);
+            color: #FFFFFF;
+            padding: 22px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 28px;
+            box-shadow: 0 4px 12px rgba(27, 54, 47, 0.2);
+        }
+
+        .result-label {
+            display: block;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 6px;
+            opacity: 0.9;
+        }
+
+        .result-value {
+            font-size: 42px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .result-um {
+            font-size: 22px;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="glue-calculator-container">
+        <h2>Calcolatore Volume Colla</h2>
+        
+        <div class="calc-form-group">
+            <label for="glue-type">Tipologia Incollaggio</label>
+            <select id="glue-type" onchange="updateDefaultThickness()">
+                <option value="fuga-lineare" data-thickness="0.95">Fuga Lineare</option>
+                <option value="mitre-edge" data-thickness="1.05">Mitre Edge</option>
+                <option value="lamination-edge" data-thickness="1.05">Lamination Edge</option>
+            </select>
+        </div>
+
+        <div class="calc-form-group">
+            <label for="slab-thickness">Slab Thickness (mm)</label>
+            <input type="number" id="slab-thickness" value="20" min="0" step="any" oninput="calculateGlue()">
+        </div>
+
+        <div class="calc-form-group">
+            <label for="seam-length">Seam Length (mm)</label>
+            <input type="number" id="seam-length" value="1000" min="0" step="any" oninput="calculateGlue()">
+        </div>
+
+        <div class="calc-form-group">
+            <label for="glue-thickness">Spessore Incollaggio (mm)</label>
+            <input type="number" id="glue-thickness" value="0.95" min="0" step="any" oninput="calculateGlue()">
+        </div>
+
+        <div class="calc-result-box">
+            <span class="result-label">Volume di Colla Stimato</span>
+            <div class="result-value"><span id="glue-result">19</span> <span class="result-um">ml</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateDefaultThickness() {
+    var select = document.getElementById('glue-type');
+    if (!select) return;
+    var selectedOption = select.options[select.selectedIndex];
+    var defaultThickness = selectedOption.getAttribute('data-thickness');
+    
+    var thicknessInput = document.getElementById('glue-thickness');
+    if (thicknessInput) {
+        thicknessInput.value = defaultThickness;
+    }
+    calculateGlue();
+}
+
+function calculateGlue() {
+    var slabEl = document.getElementById('slab-thickness');
+    var seamEl = document.getElementById('seam-length');
+    var glueEl = document.getElementById('glue-thickness');
+    var resultEl = document.getElementById('glue-result');
+    
+    if (!slabEl || !seamEl || !glueEl || !resultEl) return;
+
+    var slabThickness = parseFloat(slabEl.value.toString().replace(',', '.')) || 0;
+    var seamLength = parseFloat(seamEl.value.toString().replace(',', '.')) || 0;
+    var glueThickness = parseFloat(glueEl.value.toString().replace(',', '.')) || 0;
+    
+    var volume = (slabThickness * seamLength * glueThickness) / 1000;
+    
+    resultEl.textContent = Math.round(volume);
+}
+
+// Avvia il calcolo iniziale non appena il DOM è pronto
+document.addEventListener('DOMContentLoaded', calculateGlue);
+</script>
+
+</body>
+</html>
